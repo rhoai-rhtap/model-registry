@@ -7,21 +7,15 @@ FROM registry.redhat.io/ubi8/go-toolset:1.21 as builder
 ## Build args to be used at this step
 ARG SOURCE_CODE
 ARG CI_CONTAINER_VERSION
-## CPaaS CODE BEGIN ##
-COPY ${REMOTE_SOURCE} ${REMOTE_SOURCE_DIR}
-ENV SOURCE_CODE=${REMOTE_SOURCE}/app
-## CPaaS CODE END ##
+
  
 USER root
  
 WORKDIR /workspace
- 
-COPY ${SOURCE_CODE}/go.mod ./
-COPY ${SOURCE_CODE}/go.sum ./
- 
- 
-# Copy the source
-COPY ${SOURCE_CODE}/ ./
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
  
 RUN CGO_ENABLED=1 GOOS=linux go build -tags strictfipsruntime -a -o model-registry main.go
  
