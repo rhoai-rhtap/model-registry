@@ -19,11 +19,6 @@ WORKDIR /workspace
 COPY ${SOURCE_CODE}/go.mod ./
 COPY ${SOURCE_CODE}/go.sum ./
  
-RUN if [ -z ${CACHITO_ENV_FILE} ]; then \
-       go mod download; \
-    else \
-       source ${CACHITO_ENV_FILE}; \
-    fi
  
 # Copy the source
 COPY ${SOURCE_CODE}/ ./
