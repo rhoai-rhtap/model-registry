@@ -29,7 +29,12 @@ COPY . .
 RUN CGO_ENABLED=1 GOOS=linux go build -tags strictfipsruntime -a -o model-registry main.go
  
 FROM registry.redhat.io/ubi8/ubi-minimal:latest
- 
+
+## Build args to be used at this step
+ARG VERSION
+ARG SOURCE_URL
+ARG COMMIT_SHA
+
 WORKDIR /
  
 COPY --from=builder /workspace/model-registry .
@@ -48,6 +53,6 @@ CMD /model-registry proxy -logtostderr=true
  
 LABEL git.url="${SOURCE_URL}" \
       git.commit="${COMMIT_SHA}" \
-      version="$VERSION" \
+      version="${VERSION}" \
       url="$URL" \
       vcs-ref="${COMMIT_SHA}"
