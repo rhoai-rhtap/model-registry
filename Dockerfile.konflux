@@ -1,4 +1,8 @@
 # Build arguments
+ARG VERSION=
+ARG SOURCE_URL=
+ARG COMMIT_SHA=
+
 ARG SOURCE_CODE=.
 ARG CI_CONTAINER_VERSION="unknown"
  
@@ -42,14 +46,8 @@ EXPOSE 8080
 # Start the model registry proxy
 CMD /model-registry proxy -logtostderr=true
  
-LABEL com.redhat.component="odh-model-registry-container" \
-      name="managed-open-data-hub/odh-model-registry-rhel8" \
-      version="${CI_CONTAINER_VERSION}" \
-      git.url="${CI_MODEL_REGISTRY_UPSTREAM_URL}" \
-      git.commit="${CI_MODEL_REGISTRY_UPSTREAM_COMMIT}" \
-      summary="odh-model-registry" \
-      io.openshift.expose-services="" \
-      io.k8s.display-name="odh-model-registry" \
-      maintainer="['managed-open-data-hub@redhat.com']" \
-      description="Container that provides a central repository for model developers to store and manage models, versions, and artifacts metadata." \
-      com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
+LABEL git.url="${SOURCE_URL}" \
+      git.commit="${COMMIT_SHA}" \
+      version="$VERSION" \
+      url="$URL" \
+      vcs-ref="${COMMIT_SHA}"
