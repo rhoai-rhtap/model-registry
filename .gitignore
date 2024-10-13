@@ -45,3 +45,4 @@ readme.txt
 certs/
 #OSX files
 **/.DS_Store
+push.sh
